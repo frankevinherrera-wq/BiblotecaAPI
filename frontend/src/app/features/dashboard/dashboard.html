@@ -1,0 +1,50 @@
+<section class="page">
+  <section class="dashboard-hero" aria-labelledby="dashboard-title">
+    <div class="hero-copy">
+      <span class="hero-kicker"><span class="live-dot"></span> BIBLIOTECA CYBERLINK</span>
+      <h1 id="dashboard-title">Las historias<br /><span>cobran vida aquí.</span></h1>
+      <p>Tu biblioteca, conectada. Explora el catálogo y mantén cada detalle al alcance.</p>
+      <div class="hero-actions">
+        <a class="hero-button" routerLink="/admin/libros">Explorar libros <span aria-hidden="true">→</span></a>
+        <a class="hero-secondary" routerLink="/admin/pedidos">Ver pedidos</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="visual-orbit orbit-one"></div>
+      <div class="visual-orbit orbit-two"></div>
+      <img src="assets/cyber-library.svg" alt="" fetchpriority="high" />
+      <span class="visual-caption"><span></span> Una historia por descubrir</span>
+    </div>
+    <span class="hero-index" aria-hidden="true">01 / LIBRARY SYSTEM</span>
+  </section>
+
+  @if (loading()) {
+    <div class="state"><div class="spinner"></div>Cargando datos…</div>
+  } @else if (error(); as msg) {
+    <div class="panel state error">
+      <p>{{ msg }}</p>
+      <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+    </div>
+  } @else {
+    <div class="overview-heading">
+      <div>
+        <span class="overview-kicker">CENTRO DE GESTIÓN</span>
+        <h2>Resumen de la biblioteca</h2>
+      </div>
+      <span class="overview-hint">Selecciona una sección para comenzar <span aria-hidden="true">↓</span></span>
+    </div>
+    <div class="cards">
+      @for (s of stats(); track s.label) {
+        <a class="card" [routerLink]="s.link" [attr.aria-label]="'Abrir gestión de ' + s.label">
+          <span class="card-top">
+            <span class="card-icon" aria-hidden="true">{{ s.label.slice(0, 1) }}</span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </span>
+          <span class="num">{{ s.value }}</span>
+          <span class="lbl">{{ s.label }}</span>
+          <span class="card-cta">Abrir sección <span aria-hidden="true">→</span></span>
+        </a>
+      }
+    </div>
+  }
+</section>

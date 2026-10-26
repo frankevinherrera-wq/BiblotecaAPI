@@ -1,5 +1,0 @@
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1rem; }
-.card { display: flex; flex-direction: column; gap: 0.3rem; padding: 1.2rem; text-decoration: none; background: rgba(7, 11, 24, 0.85); border: 1px solid #00ffff33; border-radius: 0.5rem; transition: all 0.25s; }
-.card:hover { border-color: #00ffff; transform: translateY(-3px); box-shadow: 0 0 22px #00ffff44; }
-.num { font-size: 2.4rem; font-weight: 800; color: #00ffff; text-shadow: 0 0 12px #00ffff66; line-height: 1; }
-.lbl { color: #9fb4c8; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; }

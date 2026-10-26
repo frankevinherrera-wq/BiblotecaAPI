@@ -1,0 +1,115 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Tema global CYBERLINK (cyberpunk). Estas clases las comparten
+   todas las pantallas del panel para no repetir CSS por componente.
+   ============================================================ */
+html, body { background: #000; color: #fff; min-height: 100%; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+
+.page { max-width: 74rem; margin: 0 auto; padding: 1.75rem 1.25rem 3.25rem; }
+.page-title { font-size: 1.6rem; font-weight: 800; color: #00ffff; letter-spacing: 0.06em; margin: 0; text-shadow: 0 0 12px #00ffff66; }
+.page-sub { color: #9fb4c8; margin: 0.25rem 0 1.2rem; font-size: 0.9rem; }
+
+.admin-banner {
+  position: relative;
+  display: flex;
+  min-height: 9.25rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+  padding: 1.35rem 1.65rem;
+  overflow: hidden;
+  border: 1px solid #00ffff36;
+  border-radius: 0.75rem;
+  background:
+    linear-gradient(90deg, #070b18 0%, #07121f 55%, #071a2a 100%);
+  box-shadow: 0 9px 28px #0005, inset 0 1px #ffffff08;
+}
+.admin-banner::before {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(#00ffff08 1px, transparent 1px), linear-gradient(90deg, #00ffff08 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(90deg, #000, transparent 90%);
+  content: '';
+  pointer-events: none;
+}
+.banner-copy { position: relative; z-index: 2; max-width: 75%; }
+.banner-kicker { display: block; margin-bottom: 0.3rem; color: #58dce5; font-size: 0.63rem; font-weight: 750; letter-spacing: 0.15em; }
+.admin-banner .page-title { font-size: clamp(1.35rem, 3vw, 1.7rem); }
+.admin-banner .page-sub { margin: 0.28rem 0 0; }
+.banner-art { position: absolute; z-index: 1; right: 1.4rem; bottom: -1.3rem; width: 10.5rem; height: 9.5rem; object-fit: contain; filter: drop-shadow(0 0 16px #00d9ff3b); transition: transform 240ms ease, filter 240ms ease; }
+.admin-banner:hover .banner-art { transform: translateY(-3px) scale(1.035); filter: drop-shadow(0 0 22px #00d9ff55); }
+.banner-glow { position: absolute; top: 50%; right: 4rem; width: 8rem; height: 8rem; border-radius: 50%; background: #00bfff13; filter: blur(28px); transform: translateY(-50%); pointer-events: none; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+
+.panel { background: linear-gradient(145deg, rgba(9, 15, 29, 0.96), rgba(5, 9, 19, 0.96)); border: 1px solid #00ffff33; border-radius: 0.75rem; padding: 1rem; box-shadow: 0 8px 26px #0005, inset 0 1px #ffffff08; }
+
+/* ---- Botones ---- */
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 0.4rem; padding: 0.5rem 1rem; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: 1px solid transparent; transition: transform 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s, filter 0.2s; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(90deg, #06b6d4, #3b82f6); color: #fff; }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.15); box-shadow: 0 0 18px #00ffff55; }
+.btn-ghost { background: transparent; color: #9fb4c8; border-color: #9fb4c855; }
+.btn-ghost:hover:not(:disabled) { background: #ffffff11; }
+.btn-sm { padding: 0.25rem 0.65rem; font-size: 0.8rem; }
+.btn-edit { background: transparent; color: #00ffff; border-color: #00ffff66; }
+.btn-edit:hover:not(:disabled) { background: #00ffff22; box-shadow: 0 0 12px #00ffff18; }
+.btn-del { background: transparent; color: #ff6b9a; border-color: #ff6b9a66; }
+.btn-del:hover:not(:disabled) { background: #ff3b7a22; box-shadow: 0 0 12px #ff3b7a20; }
+
+/* ---- Formularios ---- */
+.field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.9rem; }
+.field label { font-size: 0.8rem; color: #9fb4c8; letter-spacing: 0.04em; text-transform: uppercase; }
+.input { width: 100%; background: #02050d; color: #fff; border: 1px solid #00ffff44; border-radius: 0.3rem; padding: 0.5rem 0.7rem; font-size: 0.95rem; outline: none; box-sizing: border-box; }
+.input:focus { border-color: #00ffff; box-shadow: 0 0 0 3px #00ffff20, 0 0 14px #00ffff22; }
+.input.invalid { border-color: #ff3b7a; }
+select.input option { background: #02050d; }
+.field-error { color: #ff6b9a; font-size: 0.78rem; }
+.form-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.5rem; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.9rem; }
+@media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* ---- Tabla ---- */
+.table-wrap { overflow-x: auto; border: 1px solid #00ffff18; border-radius: 0.55rem; }
+.cy-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.cy-table th { text-align: left; padding: 0.7rem 0.75rem; color: #65e5ec; background: #00ffff08; font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; border-bottom: 1px solid #00ffff38; white-space: nowrap; }
+.cy-table td { padding: 0.7rem 0.75rem; border-bottom: 1px solid #ffffff12; vertical-align: middle; }
+.cy-table tbody tr { transition: background 0.18s ease; }
+.cy-table tbody tr:hover { background: #00ffff0d; }
+.cy-table tbody tr:last-child td { border-bottom: 0; }
+.cy-table .actions { display: flex; gap: 0.4rem; justify-content: flex-end; }
+.cy-table th.right, .cy-table td.right { text-align: right; }
+
+/* ---- Estados ---- */
+.state { padding: 2.5rem 1rem; text-align: center; color: #9fb4c8; }
+.state.error { color: #ff9bb8; }
+.spinner { width: 2rem; height: 2rem; margin: 0 auto 0.8rem; border: 3px solid #00ffff33; border-top-color: #00ffff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.badge { display: inline-block; padding: 0.16rem 0.6rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid #00ffff66; color: #69eaf0; background: #00ffff0b; }
+
+.btn:focus-visible, .input:focus-visible, .nav-link:focus-visible, .menu-icon:focus-visible {
+  outline: 2px solid #00ffff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .page { padding: 1.25rem 0.85rem 2.5rem; }
+  .page-title { font-size: 1.4rem; }
+  .admin-banner { min-height: 8.2rem; margin-bottom: 1.15rem; padding: 1rem 1.1rem; }
+  .banner-copy { max-width: 74%; }
+  .admin-banner .page-title { font-size: 1.25rem; }
+  .admin-banner .page-sub { max-width: 18rem; font-size: 0.78rem; }
+  .banner-art { right: 0.15rem; bottom: -0.65rem; width: 7.7rem; height: 7.4rem; }
+  .banner-glow { right: 1rem; width: 6rem; height: 6rem; }
+  .toolbar { align-items: stretch; }
+  .toolbar .btn { justify-content: center; }
+  .panel { padding: 0.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
