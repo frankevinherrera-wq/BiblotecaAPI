@@ -35,9 +35,10 @@
 }
 .live-dot { width: 0.48rem; height: 0.48rem; border-radius: 50%; background: #00ffff; box-shadow: 0 0 10px #00ffff; animation: live-pulse 2s ease-in-out infinite; }
 @keyframes live-pulse { 50% { box-shadow: 0 0 3px #00ffff, 0 0 15px #00ffff; opacity: 0.7; } }
-.hero-copy h1 { margin: 1rem 0 0.75rem; color: #fff; font-size: clamp(2.1rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.055em; line-height: 1.02; }
-.hero-copy h1 span { color: #00ffff; text-shadow: 0 0 20px #00ffff55; }
+.hero-copy h1 { margin: 1rem 0 0.75rem; color: #eef5ff; font-size: clamp(2.6rem, 6vw, 4.25rem); font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; }
+.hero-copy h1 span { color: #82d9e8; background: linear-gradient(100deg, #82d9e8, #91baff); background-clip: text; -webkit-text-fill-color: transparent; }
 .hero-copy p { max-width: 26rem; margin: 0; color: #a8bdc9; font-size: 0.98rem; line-height: 1.7; }
+.hero-copy p strong { color: #c3d9e8; font-weight: 700; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; margin-top: 1.55rem; }
 .hero-button { display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1rem; border: 1px solid #00ffff88; border-radius: 0.45rem; color: #001317; background: linear-gradient(110deg, #00ffff, #48baff); box-shadow: 0 0 20px #00ffff2e; font-size: 0.88rem; font-weight: 800; text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease; }
 .hero-button:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 0 26px #00ffff66; }
@@ -78,7 +79,7 @@
 @media (max-width: 680px) {
   .dashboard-hero { grid-template-columns: 1fr; padding: 1.7rem 1.35rem 1rem; }
   .hero-copy { max-width: none; }
-  .hero-copy h1 { max-width: 28rem; font-size: clamp(2rem, 10vw, 3rem); }
+  .hero-copy h1 { max-width: 28rem; font-size: clamp(2.5rem, 11vw, 3.25rem); }
   .hero-visual { min-height: 13rem; }
   .hero-visual img { width: min(80%, 20rem); max-height: 14rem; }
   .visual-caption { right: 0; bottom: 0; }

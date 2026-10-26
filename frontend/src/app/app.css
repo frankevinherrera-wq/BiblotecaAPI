@@ -1,9 +1,5 @@
 
 /* ---------- Animaciones ---------- */
-@keyframes neon-pulse {
-  0%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #00ffff, 0 0 35px #00ffff, 0 0 40px #00ffff, 0 0 50px #00ffff, 0 0 75px #00ffff; }
-  50% { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #fff, 0 0 10px #00ffff, 0 0 17px #00ffff, 0 0 20px #00ffff, 0 0 25px #00ffff, 0 0 37px #00ffff; }
-}
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -13,17 +9,6 @@
   0% { background-position: 0 0; }
   100% { background-position: 20px 20px; }
 }
-@keyframes glitch-anim {
-  0% { clip-path: inset(39% 0 29% 0); }
-  20% { clip-path: inset(3% 0 90% 0); }
-  40% { clip-path: inset(6% 0 55% 0); }
-  60% { clip-path: inset(13% 0 45% 0); }
-  80% { clip-path: inset(44% 0 20% 0); }
-  100% { clip-path: inset(54% 0 30% 0); }
-}
-
-.neon-text { animation: neon-pulse 1.5s infinite alternate; }
-
 /* Fondo degradado animado + rejilla (se combinan en un solo background) */
 .bg-animated.cyber-grid {
   background-image:
@@ -34,36 +19,15 @@
   animation: gradient 15s ease infinite;
 }
 
-/* ---------- Logo con glitch ---------- */
+/* ---------- Logo ---------- */
 .logo {
   position: relative;
   display: inline-block;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff;
+  color: #dce8f0;
   text-decoration: none;
   cursor: pointer;
-}
-.glitch-effect::before,
-.glitch-effect::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.8;
-}
-.glitch-effect::before {
-  left: 2px;
-  text-shadow: -2px 0 #ff00de;
-  clip-path: inset(24px 0 0 0);
-  animation: glitch-anim 3s infinite linear alternate-reverse;
-}
-.glitch-effect::after {
-  left: -2px;
-  text-shadow: -2px 0 #00ffff;
-  clip-path: inset(0 0 0 0);
-  animation: glitch-anim 2s infinite linear alternate-reverse;
 }
 
 /* ---------- Navbar ---------- */
