@@ -1,0 +1,3 @@
+.search { max-width: 22rem; }
+/* Stock bajo (< 5) resaltado */
+.low { color: #ff6b9a; font-weight: 700; }

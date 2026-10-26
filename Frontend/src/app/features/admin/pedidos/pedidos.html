@@ -1,0 +1,125 @@
+<section class="page">
+  <h1 class="page-title">PEDIDOS</h1>
+  <p class="page-sub">Pedidos de los usuarios. Al crear uno se descuenta el stock; al eliminarlo se devuelve.</p>
+
+  <div class="toolbar">
+    <input class="input search" type="search" placeholder="Buscar por #, usuario o estado…"
+      [value]="list.term()" (input)="list.setTerm($any($event.target).value)" />
+    <button type="button" class="btn btn-primary" (click)="openNew()">+ Nuevo pedido</button>
+  </div>
+
+  <div class="panel">
+    @if (loading()) {
+      <div class="state"><div class="spinner"></div>Cargando pedidos…</div>
+    } @else if (error(); as msg) {
+      <div class="state error">
+        <p>{{ msg }}</p>
+        <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+      </div>
+    } @else if (list.total() === 0) {
+      <div class="state">No hay pedidos{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
+    } @else {
+      <div class="table-wrap">
+        <table class="cy-table">
+          <thead>
+            <tr><th>#</th><th>Fecha</th><th>Usuario</th><th>Estado</th><th class="right">Ítems</th><th class="right">Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (p of list.rows(); track p.id) {
+              <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.fechaPedido | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ p.nombreUsuario }}</td>
+                <td><span class="badge">{{ p.estado }}</span></td>
+                <td class="right">{{ p.detallePedidos.length }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="btn btn-sm btn-edit" (click)="viewing.set(p)">Ver</button>
+                    <button type="button" class="btn btn-sm btn-del" (click)="remove(p)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [page]="list.page()" [totalPages]="list.totalPages()" [total]="list.total()"
+        (pageChange)="list.setPage($event)" />
+    }
+  </div>
+</section>
+
+<!-- Detalle -->
+@if (viewing(); as p) {
+  <app-modal [title]="'Pedido #' + p.id" (closed)="viewing.set(null)">
+    <p class="meta">{{ p.nombreUsuario }} · {{ p.fechaPedido | date: 'dd/MM/yyyy HH:mm' }} · <span class="badge">{{ p.estado }}</span></p>
+    <table class="cy-table">
+      <thead><tr><th>Libro</th><th class="right">Cant.</th><th class="right">P. unit.</th><th class="right">Subtotal</th></tr></thead>
+      <tbody>
+        @for (d of p.detallePedidos; track d.libroId) {
+          <tr>
+            <td>{{ d.tituloLibro }}</td>
+            <td class="right">{{ d.cantidad }}</td>
+            <td class="right">{{ d.precioUnitario | number: '1.2-2' }}</td>
+            <td class="right">{{ d.cantidad * d.precioUnitario | number: '1.2-2' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <p class="total">Total: {{ viewingTotal() | number: '1.2-2' }}</p>
+  </app-modal>
+}
+
+<!-- Crear -->
+@if (creating()) {
+  <app-modal title="Nuevo pedido" (closed)="closeForm()">
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label for="p-user">Usuario</label>
+        <select id="p-user" class="input" formControlName="usuarioId"
+          [class.invalid]="form.controls.usuarioId.invalid && form.controls.usuarioId.touched">
+          <option [ngValue]="0" disabled>Selecciona un usuario…</option>
+          @for (u of usuarios(); track u.id) { <option [ngValue]="u.id">{{ u.nombre }}</option> }
+        </select>
+        @if (form.controls.usuarioId.invalid && form.controls.usuarioId.touched) {
+          <span class="field-error">Debes elegir un usuario.</span>
+        }
+      </div>
+
+      <div formArrayName="detalles">
+        @for (line of lines.controls; track line; let i = $index) {
+          <div class="line" [formGroupName]="i">
+            <div class="field grow">
+              <label [attr.for]="'p-libro-' + i">Libro</label>
+              <select [id]="'p-libro-' + i" class="input" formControlName="libroId"
+                [class.invalid]="line.controls.libroId.invalid && line.controls.libroId.touched">
+                <option [ngValue]="0" disabled>Selecciona un libro…</option>
+                @for (l of libros(); track l.id) {
+                  <option [ngValue]="l.id" [disabled]="l.stock < 1">{{ l.titulo }} (stock {{ l.stock }})</option>
+                }
+              </select>
+            </div>
+            <div class="field qty">
+              <label [attr.for]="'p-cant-' + i">Cant.</label>
+              <input [id]="'p-cant-' + i" type="number" class="input" formControlName="cantidad"
+                [class.invalid]="line.controls.cantidad.invalid && line.controls.cantidad.touched" />
+            </div>
+            <button type="button" class="btn btn-sm btn-del rm" (click)="removeLine(i)"
+              [disabled]="lines.length === 1" aria-label="Quitar línea">&times;</button>
+          </div>
+          @if (stockOf(line.controls.libroId.value); as stock) {
+            @if (line.controls.cantidad.value > stock) {
+              <span class="field-error">Solo hay {{ stock }} en stock.</span>
+            }
+          }
+        }
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" (click)="addLine()">+ Agregar libro</button>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Crear pedido' }}</button>
+      </div>
+    </form>
+  </app-modal>
+}

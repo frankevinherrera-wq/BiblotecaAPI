@@ -1,0 +1,8 @@
+<div class="stack" aria-live="polite">
+  @for (t of toastService.toasts(); track t.id) {
+    <div class="toast" [class.ok]="t.kind === 'success'" [class.err]="t.kind === 'error'" role="status">
+      <span>{{ t.message }}</span>
+      <button type="button" (click)="toastService.dismiss(t.id)" aria-label="Cerrar">&times;</button>
+    </div>
+  }
+</div>

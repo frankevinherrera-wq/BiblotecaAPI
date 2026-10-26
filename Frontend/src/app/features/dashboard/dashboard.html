@@ -1,0 +1,22 @@
+<section class="page">
+  <h1 class="page-title">PANEL DE CONTROL</h1>
+  <p class="page-sub">Resumen general de la biblioteca.</p>
+
+  @if (loading()) {
+    <div class="state"><div class="spinner"></div>Cargando datos…</div>
+  } @else if (error(); as msg) {
+    <div class="panel state error">
+      <p>{{ msg }}</p>
+      <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+    </div>
+  } @else {
+    <div class="cards">
+      @for (s of stats(); track s.label) {
+        <a class="card" [routerLink]="s.link">
+          <span class="num">{{ s.value }}</span>
+          <span class="lbl">{{ s.label }}</span>
+        </a>
+      }
+    </div>
+  }
+</section>

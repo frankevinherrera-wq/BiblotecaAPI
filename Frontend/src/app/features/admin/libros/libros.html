@@ -1,0 +1,95 @@
+<section class="page">
+  <h1 class="page-title">LIBROS</h1>
+  <p class="page-sub">Inventario de libros, precios y stock.</p>
+
+  <div class="toolbar">
+    <input class="input search" type="search" placeholder="Buscar por título, autor o categoría…"
+      [value]="list.term()" (input)="list.setTerm($any($event.target).value)" />
+    <button type="button" class="btn btn-primary" (click)="openNew()">+ Nuevo libro</button>
+  </div>
+
+  <div class="panel">
+    @if (loading()) {
+      <div class="state"><div class="spinner"></div>Cargando libros…</div>
+    } @else if (error(); as msg) {
+      <div class="state error">
+        <p>{{ msg }}</p>
+        <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+      </div>
+    } @else if (list.total() === 0) {
+      <div class="state">No hay libros{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
+    } @else {
+      <div class="table-wrap">
+        <table class="cy-table">
+          <thead>
+            <tr><th>ID</th><th>Título</th><th>Autor</th><th>Categoría</th><th class="right">Precio</th><th class="right">Stock</th><th class="right">Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (l of list.rows(); track l.id) {
+              <tr>
+                <td>{{ l.id }}</td>
+                <td>{{ l.titulo }}</td>
+                <td>{{ l.nombreAutor }}</td>
+                <td><span class="badge">{{ l.nombreCategoria }}</span></td>
+                <td class="right">{{ l.precio | number: '1.2-2' }}</td>
+                <td class="right" [class.low]="l.stock < 5">{{ l.stock }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="btn btn-sm btn-edit" (click)="openEdit(l)">Editar</button>
+                    <button type="button" class="btn btn-sm btn-del" (click)="remove(l)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [page]="list.page()" [totalPages]="list.totalPages()" [total]="list.total()"
+        (pageChange)="list.setPage($event)" />
+    }
+  </div>
+</section>
+
+@if (editing() !== null) {
+  <app-modal [title]="editing() === 'new' ? 'Nuevo libro' : 'Editar libro'" (closed)="closeForm()">
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label for="l-titulo">Título</label>
+        <input id="l-titulo" class="input" [class.invalid]="invalid('titulo')" formControlName="titulo" />
+        @if (invalid('titulo')) { <span class="field-error">El título es obligatorio (máx. 150 caracteres).</span> }
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="l-precio">Precio</label>
+          <input id="l-precio" type="number" step="0.01" class="input" [class.invalid]="invalid('precio')" formControlName="precio" />
+          @if (invalid('precio')) { <span class="field-error">Entre 0.01 y 10000.</span> }
+        </div>
+        <div class="field">
+          <label for="l-stock">Stock</label>
+          <input id="l-stock" type="number" step="1" class="input" [class.invalid]="invalid('stock')" formControlName="stock" />
+          @if (invalid('stock')) { <span class="field-error">Entre 0 y 1000.</span> }
+        </div>
+      </div>
+      <div class="field">
+        <label for="l-autor">Autor</label>
+        <select id="l-autor" class="input" [class.invalid]="invalid('autorId')" formControlName="autorId">
+          <option [ngValue]="0" disabled>Selecciona un autor…</option>
+          @for (a of autores(); track a.id) { <option [ngValue]="a.id">{{ a.nombre }}</option> }
+        </select>
+        @if (invalid('autorId')) { <span class="field-error">Debes elegir un autor.</span> }
+      </div>
+      <div class="field">
+        <label for="l-cat">Categoría</label>
+        <select id="l-cat" class="input" [class.invalid]="invalid('categoriaId')" formControlName="categoriaId">
+          <option [ngValue]="0" disabled>Selecciona una categoría…</option>
+          @for (c of categorias(); track c.id) { <option [ngValue]="c.id">{{ c.nombre }}</option> }
+        </select>
+        @if (invalid('categoriaId')) { <span class="field-error">Debes elegir una categoría.</span> }
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+      </div>
+    </form>
+  </app-modal>
+}

@@ -1,0 +1,12 @@
+@if (confirm.request(); as req) {
+  <div class="backdrop" (click)="confirm.answer(false)" role="presentation">
+    <div class="box" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <h2>{{ req.title }}</h2>
+      <p>{{ req.message }}</p>
+      <div class="actions">
+        <button type="button" class="btn-ghost" (click)="confirm.answer(false)">Cancelar</button>
+        <button type="button" class="btn-danger" (click)="confirm.answer(true)">{{ req.confirmText }}</button>
+      </div>
+    </div>
+  </div>
+}

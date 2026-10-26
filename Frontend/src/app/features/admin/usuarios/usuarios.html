@@ -1,0 +1,92 @@
+<section class="page">
+  <h1 class="page-title">USUARIOS</h1>
+  <p class="page-sub">Gestiona los usuarios registrados en la biblioteca.</p>
+
+  <div class="toolbar">
+    <input
+      class="input search"
+      type="search"
+      placeholder="Buscar por nombre, correo o teléfono…"
+      [value]="list.term()"
+      (input)="list.setTerm($any($event.target).value)"
+    />
+    <button type="button" class="btn btn-primary" (click)="openNew()">+ Nuevo usuario</button>
+  </div>
+
+  <div class="panel">
+    @if (loading()) {
+      <div class="state"><div class="spinner"></div>Cargando usuarios…</div>
+    } @else if (error(); as msg) {
+      <div class="state error">
+        <p>{{ msg }}</p>
+        <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+      </div>
+    } @else if (list.total() === 0) {
+      <div class="state">No hay usuarios{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
+    } @else {
+      <div class="table-wrap">
+        <table class="cy-table">
+          <thead>
+            <tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th class="right">Acciones</th></tr>
+          </thead>
+          <tbody>
+            @for (u of list.rows(); track u.id) {
+              <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.telefono || '—' }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="btn btn-sm btn-edit" (click)="openEdit(u)">Editar</button>
+                    <button type="button" class="btn btn-sm btn-del" (click)="remove(u)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <app-pagination
+        [page]="list.page()"
+        [totalPages]="list.totalPages()"
+        [total]="list.total()"
+        (pageChange)="list.setPage($event)"
+      />
+    }
+  </div>
+</section>
+
+@if (editing() !== null) {
+  <app-modal [title]="editing() === 'new' ? 'Nuevo usuario' : 'Editar usuario'" (closed)="closeForm()">
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label for="u-nombre">Nombre</label>
+        <input id="u-nombre" class="input" [class.invalid]="invalid('nombre')" formControlName="nombre" />
+        @if (invalid('nombre')) {
+          <span class="field-error">El nombre es obligatorio (máx. 100 caracteres).</span>
+        }
+      </div>
+      <div class="field">
+        <label for="u-email">Correo electrónico</label>
+        <input id="u-email" type="email" class="input" [class.invalid]="invalid('email')" formControlName="email" />
+        @if (invalid('email')) {
+          <span class="field-error">Ingresa un correo válido.</span>
+        }
+      </div>
+      <div class="field">
+        <label for="u-tel">Teléfono</label>
+        <input id="u-tel" class="input" [class.invalid]="invalid('telefono')" formControlName="telefono" />
+        @if (invalid('telefono')) {
+          <span class="field-error">Máximo 20 caracteres.</span>
+        }
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">
+          {{ saving() ? 'Guardando…' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </app-modal>
+}

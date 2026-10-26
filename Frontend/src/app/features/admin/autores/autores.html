@@ -1,0 +1,67 @@
+<section class="page">
+  <h1 class="page-title">AUTORES</h1>
+  <p class="page-sub">Catálogo de autores de la biblioteca.</p>
+
+  <div class="toolbar">
+    <input class="input search" type="search" placeholder="Buscar por nombre o nacionalidad…"
+      [value]="list.term()" (input)="list.setTerm($any($event.target).value)" />
+    <button type="button" class="btn btn-primary" (click)="openNew()">+ Nuevo autor</button>
+  </div>
+
+  <div class="panel">
+    @if (loading()) {
+      <div class="state"><div class="spinner"></div>Cargando autores…</div>
+    } @else if (error(); as msg) {
+      <div class="state error">
+        <p>{{ msg }}</p>
+        <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+      </div>
+    } @else if (list.total() === 0) {
+      <div class="state">No hay autores{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
+    } @else {
+      <div class="table-wrap">
+        <table class="cy-table">
+          <thead><tr><th>ID</th><th>Nombre</th><th>Nacionalidad</th><th class="right">Acciones</th></tr></thead>
+          <tbody>
+            @for (a of list.rows(); track a.id) {
+              <tr>
+                <td>{{ a.id }}</td>
+                <td>{{ a.nombre }}</td>
+                <td>{{ a.nacionalidad || '—' }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="btn btn-sm btn-edit" (click)="openEdit(a)">Editar</button>
+                    <button type="button" class="btn btn-sm btn-del" (click)="remove(a)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [page]="list.page()" [totalPages]="list.totalPages()" [total]="list.total()"
+        (pageChange)="list.setPage($event)" />
+    }
+  </div>
+</section>
+
+@if (editing() !== null) {
+  <app-modal [title]="editing() === 'new' ? 'Nuevo autor' : 'Editar autor'" (closed)="closeForm()">
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label for="a-nombre">Nombre</label>
+        <input id="a-nombre" class="input" [class.invalid]="invalid('nombre')" formControlName="nombre" />
+        @if (invalid('nombre')) { <span class="field-error">El nombre es obligatorio (máx. 100 caracteres).</span> }
+      </div>
+      <div class="field">
+        <label for="a-nac">Nacionalidad</label>
+        <input id="a-nac" class="input" [class.invalid]="invalid('nacionalidad')" formControlName="nacionalidad" />
+        @if (invalid('nacionalidad')) { <span class="field-error">Máximo 50 caracteres.</span> }
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+      </div>
+    </form>
+  </app-modal>
+}

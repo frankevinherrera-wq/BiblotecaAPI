@@ -1,0 +1,7 @@
+.search { max-width: 22rem; }
+.meta { color: #9fb4c8; margin: 0 0 0.8rem; font-size: 0.9rem; }
+.total { text-align: right; font-weight: 700; color: #00ffff; margin: 0.9rem 0 0; font-size: 1.05rem; }
+.line { display: flex; gap: 0.6rem; align-items: flex-end; }
+.grow { flex: 1; min-width: 0; }
+.qty { width: 5.5rem; }
+.rm { margin-bottom: 0.9rem; height: 2.3rem; }

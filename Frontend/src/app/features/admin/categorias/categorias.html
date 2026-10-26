@@ -1,0 +1,67 @@
+<section class="page">
+  <h1 class="page-title">CATEGORÍAS</h1>
+  <p class="page-sub">Clasificación de los libros.</p>
+
+  <div class="toolbar">
+    <input class="input search" type="search" placeholder="Buscar por nombre o descripción…"
+      [value]="list.term()" (input)="list.setTerm($any($event.target).value)" />
+    <button type="button" class="btn btn-primary" (click)="openNew()">+ Nueva categoría</button>
+  </div>
+
+  <div class="panel">
+    @if (loading()) {
+      <div class="state"><div class="spinner"></div>Cargando categorías…</div>
+    } @else if (error(); as msg) {
+      <div class="state error">
+        <p>{{ msg }}</p>
+        <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+      </div>
+    } @else if (list.total() === 0) {
+      <div class="state">No hay categorías{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
+    } @else {
+      <div class="table-wrap">
+        <table class="cy-table">
+          <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th class="right">Acciones</th></tr></thead>
+          <tbody>
+            @for (c of list.rows(); track c.id) {
+              <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.descripcion || '—' }}</td>
+                <td>
+                  <div class="actions">
+                    <button type="button" class="btn btn-sm btn-edit" (click)="openEdit(c)">Editar</button>
+                    <button type="button" class="btn btn-sm btn-del" (click)="remove(c)">Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [page]="list.page()" [totalPages]="list.totalPages()" [total]="list.total()"
+        (pageChange)="list.setPage($event)" />
+    }
+  </div>
+</section>
+
+@if (editing() !== null) {
+  <app-modal [title]="editing() === 'new' ? 'Nueva categoría' : 'Editar categoría'" (closed)="closeForm()">
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="field">
+        <label for="c-nombre">Nombre</label>
+        <input id="c-nombre" class="input" [class.invalid]="invalid('nombre')" formControlName="nombre" />
+        @if (invalid('nombre')) { <span class="field-error">El nombre es obligatorio (máx. 50 caracteres).</span> }
+      </div>
+      <div class="field">
+        <label for="c-desc">Descripción</label>
+        <textarea id="c-desc" rows="3" class="input" [class.invalid]="invalid('descripcion')" formControlName="descripcion"></textarea>
+        @if (invalid('descripcion')) { <span class="field-error">Máximo 200 caracteres.</span> }
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+      </div>
+    </form>
+  </app-modal>
+}
