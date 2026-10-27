@@ -1,49 +1,56 @@
-<section class="page">
-  <header class="admin-banner">
-    <div class="banner-copy">
-      <span class="banner-kicker">CATÁLOGO / 01</span>
-      <h1 class="page-title">LIBROS</h1>
-      <p class="page-sub">Inventario de libros, precios y stock.</p>
+<section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
+  <header class="mb-6 flex items-center justify-between gap-5 border-b border-stone-200 pb-5">
+    <div>
+      <p class="mb-1 text-xs font-bold tracking-[0.14em] text-emerald-900">CATÁLOGO / 01</p>
+      <h1 class="m-0 text-3xl font-bold tracking-tight text-stone-900">Libros</h1>
+      <p class="mt-2 text-sm text-stone-600">Consulta títulos, precios y existencias del catálogo.</p>
     </div>
-    <img class="banner-art" src="assets/admin-books.svg" alt="" aria-hidden="true" />
-    <span class="banner-glow" aria-hidden="true"></span>
+    <img class="hidden h-24 w-28 object-contain sm:block" src="assets/library-books.svg" alt="" aria-hidden="true" />
   </header>
 
-  <div class="toolbar">
-    <input class="input search" type="search" placeholder="Buscar por título, autor o categoría…"
+  <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <input class="min-h-11 w-full rounded-lg border border-stone-300 bg-white px-3 text-sm text-stone-800 outline-none placeholder:text-stone-400 focus:border-emerald-700 focus:ring-2 focus:ring-emerald-800/15 sm:max-w-md"
+      type="search" placeholder="Buscar por título, autor o categoría…"
       [value]="list.term()" (input)="list.setTerm($any($event.target).value)" />
-    <button type="button" class="btn btn-primary" (click)="openNew()">+ Nuevo libro</button>
+    <button type="button" class="inline-flex min-h-11 items-center justify-center rounded-lg bg-emerald-900 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800"
+      (click)="openNew()">+ Nuevo libro</button>
   </div>
 
-  <div class="panel">
+  <div class="overflow-hidden rounded-xl border border-stone-200 bg-white">
     @if (loading()) {
-      <div class="state"><div class="spinner"></div>Cargando libros…</div>
+      <div class="px-5 py-12 text-center text-sm text-stone-500">Cargando libros…</div>
     } @else if (error(); as msg) {
-      <div class="state error">
+      <div class="p-6 text-center text-rose-800">
         <p>{{ msg }}</p>
-        <button type="button" class="btn btn-ghost" (click)="load()">Reintentar</button>
+        <button type="button" class="rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50" (click)="load()">Reintentar</button>
       </div>
     } @else if (list.total() === 0) {
-      <div class="state">No hay libros{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
+      <div class="px-5 py-12 text-center text-sm text-stone-500">No hay libros{{ list.term() ? ' que coincidan con la búsqueda' : '' }}.</div>
     } @else {
-      <div class="table-wrap">
-        <table class="cy-table">
-          <thead>
-            <tr><th>ID</th><th>Título</th><th>Autor</th><th>Categoría</th><th class="right">Precio</th><th class="right">Stock</th><th class="right">Acciones</th></tr>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-left text-sm">
+          <thead class="bg-[#f7f4ec] text-[0.68rem] font-bold uppercase tracking-wider text-stone-600">
+            <tr>
+              <th class="whitespace-nowrap px-4 py-3">ID</th><th class="px-4 py-3">Título</th><th class="px-4 py-3">Autor</th>
+              <th class="px-4 py-3">Categoría</th><th class="whitespace-nowrap px-4 py-3 text-right">Precio</th>
+              <th class="px-4 py-3 text-right">Stock</th><th class="px-4 py-3 text-right">Acciones</th>
+            </tr>
           </thead>
-          <tbody>
+          <tbody class="divide-y divide-stone-100">
             @for (l of list.rows(); track l.id) {
-              <tr>
-                <td>{{ l.id }}</td>
-                <td>{{ l.titulo }}</td>
-                <td>{{ l.nombreAutor }}</td>
-                <td><span class="badge">{{ l.nombreCategoria }}</span></td>
-                <td class="right">{{ l.precio | number: '1.2-2' }}</td>
-                <td class="right" [class.low]="l.stock < 5">{{ l.stock }}</td>
-                <td>
-                  <div class="actions">
-                    <button type="button" class="btn btn-sm btn-edit" (click)="openEdit(l)">Editar</button>
-                    <button type="button" class="btn btn-sm btn-del" (click)="remove(l)">Eliminar</button>
+              <tr class="hover:bg-[#fdfbf6]">
+                <td class="whitespace-nowrap px-4 py-3 text-stone-500">{{ l.id }}</td>
+                <td class="min-w-44 px-4 py-3 font-semibold text-stone-800">{{ l.titulo }}</td>
+                <td class="px-4 py-3 text-stone-600">{{ l.nombreAutor }}</td>
+                <td class="px-4 py-3"><span class="inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900">{{ l.nombreCategoria }}</span></td>
+                <td class="whitespace-nowrap px-4 py-3 text-right tabular-nums text-stone-700">{{ l.precio | number: '1.2-2' }}</td>
+                <td class="px-4 py-3 text-right font-semibold text-stone-700" [class.text-amber-800]="l.stock < 5" [class.text-rose-700]="l.stock === 0">
+                  {{ l.stock }} <span class="text-xs font-normal text-stone-500">{{ l.stock < 5 ? 'bajo' : '' }}</span>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="flex justify-end gap-2">
+                    <button type="button" class="rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-900 hover:bg-emerald-100" (click)="openEdit(l)">Editar</button>
+                    <button type="button" class="rounded-md border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-800 hover:bg-rose-100" (click)="remove(l)">Eliminar</button>
                   </div>
                 </td>
               </tr>
@@ -59,43 +66,48 @@
 
 @if (editing() !== null) {
   <app-modal [title]="editing() === 'new' ? 'Nuevo libro' : 'Editar libro'" (closed)="closeForm()">
-    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
-      <div class="field">
-        <label for="l-titulo">Título</label>
-        <input id="l-titulo" class="input" [class.invalid]="invalid('titulo')" formControlName="titulo" />
-        @if (invalid('titulo')) { <span class="field-error">El título es obligatorio (máx. 150 caracteres).</span> }
+    <form class="space-y-4" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <div class="space-y-1.5">
+        <label class="text-sm font-semibold text-stone-700" for="l-titulo">Título</label>
+        <input id="l-titulo" class="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-800/15"
+          [class.border-rose-500]="invalid('titulo')" formControlName="titulo" />
+        @if (invalid('titulo')) { <span class="text-xs text-rose-700">El título es obligatorio (máx. 150 caracteres).</span> }
       </div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="l-precio">Precio</label>
-          <input id="l-precio" type="number" step="0.01" class="input" [class.invalid]="invalid('precio')" formControlName="precio" />
-          @if (invalid('precio')) { <span class="field-error">Entre 0.01 y 10000.</span> }
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div class="space-y-1.5">
+          <label class="text-sm font-semibold text-stone-700" for="l-precio">Precio</label>
+          <input id="l-precio" type="number" step="0.01" class="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-800/15"
+            [class.border-rose-500]="invalid('precio')" formControlName="precio" />
+          @if (invalid('precio')) { <span class="text-xs text-rose-700">Entre 0.01 y 10000.</span> }
         </div>
-        <div class="field">
-          <label for="l-stock">Stock</label>
-          <input id="l-stock" type="number" step="1" class="input" [class.invalid]="invalid('stock')" formControlName="stock" />
-          @if (invalid('stock')) { <span class="field-error">Entre 0 y 1000.</span> }
+        <div class="space-y-1.5">
+          <label class="text-sm font-semibold text-stone-700" for="l-stock">Stock</label>
+          <input id="l-stock" type="number" step="1" class="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-800/15"
+            [class.border-rose-500]="invalid('stock')" formControlName="stock" />
+          @if (invalid('stock')) { <span class="text-xs text-rose-700">Entre 0 y 1000.</span> }
         </div>
       </div>
-      <div class="field">
-        <label for="l-autor">Autor</label>
-        <select id="l-autor" class="input" [class.invalid]="invalid('autorId')" formControlName="autorId">
+      <div class="space-y-1.5">
+        <label class="text-sm font-semibold text-stone-700" for="l-autor">Autor</label>
+        <select id="l-autor" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-800/15"
+          [class.border-rose-500]="invalid('autorId')" formControlName="autorId">
           <option [ngValue]="0" disabled>Selecciona un autor…</option>
           @for (a of autores(); track a.id) { <option [ngValue]="a.id">{{ a.nombre }}</option> }
         </select>
-        @if (invalid('autorId')) { <span class="field-error">Debes elegir un autor.</span> }
+        @if (invalid('autorId')) { <span class="text-xs text-rose-700">Debes elegir un autor.</span> }
       </div>
-      <div class="field">
-        <label for="l-cat">Categoría</label>
-        <select id="l-cat" class="input" [class.invalid]="invalid('categoriaId')" formControlName="categoriaId">
+      <div class="space-y-1.5">
+        <label class="text-sm font-semibold text-stone-700" for="l-cat">Categoría</label>
+        <select id="l-cat" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-800/15"
+          [class.border-rose-500]="invalid('categoriaId')" formControlName="categoriaId">
           <option [ngValue]="0" disabled>Selecciona una categoría…</option>
           @for (c of categorias(); track c.id) { <option [ngValue]="c.id">{{ c.nombre }}</option> }
         </select>
-        @if (invalid('categoriaId')) { <span class="field-error">Debes elegir una categoría.</span> }
+        @if (invalid('categoriaId')) { <span class="text-xs text-rose-700">Debes elegir una categoría.</span> }
       </div>
-      <div class="form-actions">
-        <button type="button" class="btn btn-ghost" (click)="closeForm()">Cancelar</button>
-        <button type="submit" class="btn btn-primary" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
+      <div class="flex justify-end gap-2 border-t border-stone-100 pt-4">
+        <button type="button" class="rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50" (click)="closeForm()">Cancelar</button>
+        <button type="submit" class="rounded-lg bg-emerald-900 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-50" [disabled]="saving()">{{ saving() ? 'Guardando…' : 'Guardar' }}</button>
       </div>
     </form>
   </app-modal>

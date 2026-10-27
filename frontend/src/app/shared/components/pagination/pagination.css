@@ -1,6 +1,0 @@
-.bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 0.9rem; color: #9fb4c8; font-size: 0.85rem; }
-.controls { display: flex; align-items: center; gap: 0.6rem; }
-button { background: transparent; color: #00ffff; border: 1px solid #00ffff55; border-radius: 0.3rem; padding: 0.3rem 0.7rem; cursor: pointer; transition: background 0.2s; }
-button:hover:not(:disabled) { background: #00ffff22; }
-button:disabled { opacity: 0.35; cursor: not-allowed; }
-.page { min-width: 4rem; text-align: center; color: #fff; }

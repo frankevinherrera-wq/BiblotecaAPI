@@ -13,7 +13,6 @@ import { pagedSearch } from '../../../shared/utils/paged-search';
   selector: 'app-categorias',
   imports: [ReactiveFormsModule, Modal, Pagination],
   templateUrl: './categorias.html',
-  styleUrl: './categorias.css',
 })
 export class Categorias implements OnInit {
   private readonly api = inject(CategoriaService);

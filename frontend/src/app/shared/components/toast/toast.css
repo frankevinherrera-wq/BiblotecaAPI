@@ -1,6 +1,0 @@
-.stack { position: fixed; right: 1rem; bottom: 1rem; z-index: 100; display: flex; flex-direction: column; gap: 0.5rem; max-width: min(24rem, calc(100vw - 2rem)); }
-.toast { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.8rem; padding: 0.7rem 0.9rem; border-radius: 0.4rem; background: #070b18; border: 1px solid; font-size: 0.9rem; animation: in 0.25s ease; }
-.ok { border-color: #00ff9c; color: #b6ffe0; box-shadow: 0 0 14px #00ff9c33; }
-.err { border-color: #ff3b7a; color: #ffc2d4; box-shadow: 0 0 14px #ff3b7a33; }
-button { background: none; border: 0; color: inherit; font-size: 1.2rem; line-height: 1; cursor: pointer; }
-@keyframes in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

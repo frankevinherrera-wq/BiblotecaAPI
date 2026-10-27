@@ -14,13 +14,12 @@ import { pagedSearch } from '../../../shared/utils/paged-search';
 
 /**
  * Pedidos: listar, ver detalle, crear y eliminar.
- * (La API no permite editar un pedido; eliminarlo devuelve el stock a los libros.)
+ * Eliminar un pedido devuelve el stock a los libros.
  */
 @Component({
   selector: 'app-pedidos',
   imports: [ReactiveFormsModule, DatePipe, DecimalPipe, Modal, Pagination],
   templateUrl: './pedidos.html',
-  styleUrl: './pedidos.css',
 })
 export class Pedidos implements OnInit {
   private readonly api = inject(PedidoService);

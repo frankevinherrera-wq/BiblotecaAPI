@@ -13,7 +13,6 @@ import { pagedSearch } from '../../../shared/utils/paged-search';
   selector: 'app-usuarios',
   imports: [ReactiveFormsModule, Modal, Pagination],
   templateUrl: './usuarios.html',
-  styleUrl: './usuarios.css',
 })
 export class Usuarios implements OnInit {
   private readonly api = inject(UsuarioService);

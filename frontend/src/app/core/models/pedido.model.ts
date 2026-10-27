@@ -21,7 +21,7 @@ export interface DetallePedidoRequest {
   cantidad: number;
 }
 
-/** Espejo de PedidoRequestDto. El backend NO permite actualizar pedidos (solo crear / eliminar). */
+/** Espejo de PedidoRequestDto. */
 export interface PedidoRequest {
   usuarioId: number;
   detallePedidos: DetallePedidoRequest[];

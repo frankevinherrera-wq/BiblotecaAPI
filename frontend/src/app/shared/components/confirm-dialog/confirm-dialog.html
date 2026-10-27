@@ -1,11 +1,11 @@
 @if (confirm.request(); as req) {
-  <div class="backdrop" (click)="confirm.answer(false)" role="presentation">
-    <div class="box" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
-      <h2>{{ req.title }}</h2>
-      <p>{{ req.message }}</p>
-      <div class="actions">
-        <button type="button" class="btn-ghost" (click)="confirm.answer(false)">Cancelar</button>
-        <button type="button" class="btn-danger" (click)="confirm.answer(true)">{{ req.confirmText }}</button>
+  <div class="fixed inset-0 z-[90] flex items-center justify-center bg-stone-950/45 p-4" (click)="confirm.answer(false)" role="presentation">
+    <div class="w-full max-w-md rounded-2xl border border-stone-200 bg-[#fffdf8] p-6 shadow-2xl" role="alertdialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <h2 class="m-0 mb-2 text-lg font-bold text-rose-800">{{ req.title }}</h2>
+      <p class="mb-5 text-sm leading-6 text-stone-600">{{ req.message }}</p>
+      <div class="flex justify-end gap-2">
+        <button type="button" class="rounded-lg border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50" (click)="confirm.answer(false)">Cancelar</button>
+        <button type="button" class="rounded-lg bg-rose-800 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-900" (click)="confirm.answer(true)">{{ req.confirmText }}</button>
       </div>
     </div>
   </div>

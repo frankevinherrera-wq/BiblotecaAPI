@@ -1,24 +1,38 @@
-<nav class="navbar bg-animated cyber-grid">
-  <div class="nav-inner">
-    <a class="logo" routerLink="/dashboard">BIBLIOTECA CYBERLINK</a>
+<nav class="fixed inset-x-0 top-0 z-50 border-b border-stone-200 bg-[#fffdf8] md:inset-y-0 md:right-auto md:w-64 md:border-b-0 md:border-r">
+  <div class="flex h-16 items-center justify-between px-5 md:h-full md:flex-col md:items-stretch md:px-4 md:py-6">
+    <div class="border-stone-200 md:border-b md:px-3 md:pb-6">
+      <a class="text-lg font-extrabold leading-tight tracking-wide text-stone-800 no-underline" routerLink="/dashboard">
+        BIBLIOTECA<br /><span class="text-xl tracking-[0.12em] text-emerald-800">CYBER LINK</span>
+      </a>
+      <span class="mt-2 hidden text-[0.65rem] font-bold tracking-[0.14em] text-stone-500 md:block">PANEL DE ADMINISTRACIÓN</span>
+    </div>
 
-    <button type="button" class="menu-icon" [class.open]="menuOpen()" (click)="toggleMenu()"
-      aria-label="Abrir menú" [attr.aria-expanded]="menuOpen()">
-      <span class="hamburger"></span>
+    <button type="button" class="grid size-10 place-items-center rounded-lg border border-stone-200 bg-white text-stone-700 md:hidden"
+      [class.open]="menuOpen()" (click)="toggleMenu()" aria-label="Abrir menú" [attr.aria-expanded]="menuOpen()" aria-controls="primary-menu">
+      <span class="text-xl leading-none" aria-hidden="true">☰</span>
     </button>
 
-    <ul class="menu" [class.open]="menuOpen()">
+    <ul id="primary-menu"
+      class="absolute left-3 right-3 top-[4.25rem] flex flex-col gap-1 rounded-xl border border-stone-200 bg-[#fffdf8] p-3 shadow-lg md:static md:mt-8 md:flex-1 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:flex"
+      [class.hidden]="!menuOpen()">
+      <li class="mb-2 px-3 pt-1 text-[0.65rem] font-bold tracking-[0.14em] text-stone-500">GESTIÓN</li>
       @for (l of links; track l.path) {
         <li>
-          <a class="nav-link" [attr.data-text]="l.label" [routerLink]="l.path"
-            routerLinkActive="active" (click)="closeMenu()">{{ l.label }}</a>
+          <a class="block rounded-lg px-3 py-2.5 text-sm font-semibold text-stone-600 no-underline hover:bg-emerald-50 hover:text-emerald-900"
+            [routerLink]="l.path" routerLinkActive="bg-emerald-100 text-emerald-900"
+            (click)="closeMenu()">{{ l.label }}</a>
         </li>
       }
     </ul>
+
+    <div class="mt-auto hidden items-center gap-2 border-t border-stone-200 px-3 pt-4 text-xs text-stone-500 md:flex">
+      <span class="size-2 rounded-full bg-emerald-700" aria-hidden="true"></span>
+      Sistema de biblioteca
+    </div>
   </div>
 </nav>
 
-<main class="content">
+<main class="min-h-screen pt-16 md:ml-64 md:pt-0">
   <router-outlet />
 </main>
 

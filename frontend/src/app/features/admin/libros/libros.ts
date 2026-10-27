@@ -17,7 +17,6 @@ import { pagedSearch } from '../../../shared/utils/paged-search';
   selector: 'app-libros',
   imports: [ReactiveFormsModule, DecimalPipe, Modal, Pagination],
   templateUrl: './libros.html',
-  styleUrl: './libros.css',
 })
 export class Libros implements OnInit {
   private readonly api = inject(LibroService);
