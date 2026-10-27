@@ -13,7 +13,6 @@ import { pagedSearch } from '../../../shared/utils/paged-search';
   selector: 'app-autores',
   imports: [ReactiveFormsModule, Modal, Pagination],
   templateUrl: './autores.html',
-  styleUrl: './autores.css',
 })
 export class Autores implements OnInit {
   private readonly api = inject(AutorService);

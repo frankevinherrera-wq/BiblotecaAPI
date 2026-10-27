@@ -6,8 +6,7 @@ import { Pedido, PedidoRequest } from '../models';
 
 /**
  * Consume /api/v1/pedidos.
- * No extiende CrudService porque la API de pedidos NO tiene PATCH:
- * solo listar, consultar, crear y eliminar (al eliminar, el backend devuelve el stock).
+ * No extiende CrudService porque los pedidos tienen operaciones de stock específicas.
  */
 @Injectable({ providedIn: 'root' })
 export class PedidoService {

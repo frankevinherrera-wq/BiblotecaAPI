@@ -180,7 +180,7 @@ AutoTest.Net/
 
 # Installshield output folder
 [Ee]xpress/
-
+node_modules
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
 DocProject/Help/*.HxT
@@ -300,6 +300,8 @@ ServiceFabricBackup/
 
 # Microsoft Fakes
 FakesAssemblies/
+
+application.json
 
 # GhostDoc plugin setting file
 *.GhostDoc.xml
@@ -447,7 +449,7 @@ test-results/
 
 # Icon must end with two \r
 Icon
-
+appsettings.example
 
 # Thumbnails
 ._*
@@ -467,6 +469,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+appsettings.json
 
 # content below from: https://github.com/github/gitignore/blob/main/Global/Windows.gitignore
 # Windows thumbnail cache files

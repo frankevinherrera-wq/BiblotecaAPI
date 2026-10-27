@@ -4,7 +4,6 @@ import { ToastService } from '../../../core/services/toast.service';
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.html',
-  styleUrl: './toast.css',
 })
 export class Toast {
   protected readonly toastService = inject(ToastService);

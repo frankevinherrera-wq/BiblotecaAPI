@@ -3,12 +3,11 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ConfirmDialog } from './shared/components/confirm-dialog/confirm-dialog';
 import { Toast } from './shared/components/toast/toast';
 
-/** Componente raíz. app.html contiene el layout: navbar cyberpunk + <router-outlet>. */
+/** Componente raíz. app.html contiene la navegación del panel y el <router-outlet>. */
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, Toast, ConfirmDialog],
   templateUrl: './app.html',
-  styleUrl: './app.css',
 })
 export class App {
   protected readonly menuOpen = signal(false);

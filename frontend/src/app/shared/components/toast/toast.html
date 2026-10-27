@@ -1,8 +1,10 @@
-<div class="stack" aria-live="polite">
+<div class="fixed right-4 bottom-4 z-[100] flex max-w-[min(24rem,calc(100vw-2rem))] flex-col gap-2" aria-live="polite">
   @for (t of toastService.toasts(); track t.id) {
-    <div class="toast" [class.ok]="t.kind === 'success'" [class.err]="t.kind === 'error'" role="status">
+    <div class="flex items-start justify-between gap-3 rounded-xl border bg-white px-4 py-3 text-sm shadow-lg"
+      [class.border-emerald-300]="t.kind === 'success'" [class.text-emerald-900]="t.kind === 'success'"
+      [class.border-rose-300]="t.kind === 'error'" [class.text-rose-900]="t.kind === 'error'" role="status">
       <span>{{ t.message }}</span>
-      <button type="button" (click)="toastService.dismiss(t.id)" aria-label="Cerrar">&times;</button>
+      <button type="button" class="text-lg leading-none text-current" (click)="toastService.dismiss(t.id)" aria-label="Cerrar">&times;</button>
     </div>
   }
 </div>

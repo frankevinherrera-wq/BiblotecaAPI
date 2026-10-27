@@ -1,9 +1,11 @@
-<div class="backdrop" (click)="closed.emit()" role="presentation">
-  <div class="dialog" role="dialog" aria-modal="true" [attr.aria-label]="title()" (click)="$event.stopPropagation()">
-    <header>
-      <h2>{{ title() }}</h2>
-      <button type="button" class="x" (click)="closed.emit()" aria-label="Cerrar">&times;</button>
+<div class="fixed inset-0 z-[80] flex items-center justify-center bg-stone-950/45 p-4" (click)="closed.emit()" role="presentation">
+  <div class="max-h-[90vh] w-full max-w-xl overflow-auto rounded-2xl border border-stone-200 bg-[#fffdf8] shadow-2xl"
+    role="dialog" aria-modal="true" [attr.aria-label]="title()" (click)="$event.stopPropagation()">
+    <header class="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+      <h2 class="m-0 text-lg font-bold text-stone-900">{{ title() }}</h2>
+      <button type="button" class="grid size-9 place-items-center rounded-lg text-2xl leading-none text-stone-500 hover:bg-stone-100 hover:text-stone-900"
+        (click)="closed.emit()" aria-label="Cerrar">&times;</button>
     </header>
-    <div class="body"><ng-content /></div>
+    <div class="p-5"><ng-content /></div>
   </div>
 </div>

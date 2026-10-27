@@ -1,8 +1,10 @@
-<div class="bar">
+<div class="flex flex-wrap items-center justify-between gap-3 px-4 py-4 text-sm text-stone-500">
   <span>{{ total() }} registro(s)</span>
-  <div class="controls">
-    <button type="button" (click)="pageChange.emit(page() - 1)" [disabled]="page() <= 1">&lsaquo; Anterior</button>
-    <span class="page">{{ page() }} / {{ totalPages() }}</span>
-    <button type="button" (click)="pageChange.emit(page() + 1)" [disabled]="page() >= totalPages()">Siguiente &rsaquo;</button>
+  <div class="flex items-center gap-2">
+    <button type="button" class="rounded-lg border border-stone-300 bg-white px-3 py-1.5 font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+      (click)="pageChange.emit(page() - 1)" [disabled]="page() <= 1">&lsaquo; Anterior</button>
+    <span class="min-w-16 text-center text-stone-700">{{ page() }} / {{ totalPages() }}</span>
+    <button type="button" class="rounded-lg border border-stone-300 bg-white px-3 py-1.5 font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-40"
+      (click)="pageChange.emit(page() + 1)" [disabled]="page() >= totalPages()">Siguiente &rsaquo;</button>
   </div>
 </div>
